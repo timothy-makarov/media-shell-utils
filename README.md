@@ -1,6 +1,6 @@
 # Media Scripts
 
-Collection of useful scripts for working with media files.
+Collection of useful shell scripts for working with media files.
 
 
 ## Scripts
