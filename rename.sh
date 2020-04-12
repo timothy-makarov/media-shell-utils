@@ -1,12 +1,10 @@
 #!/bin/sh
 
 #
-# Shell script for renaming video files according to their meta data dates.
-# The files will be copied to a specified directory with new file names.
+# Renames video and image files according to their meta data information.
 #
 # Arguments:
-#   $1  - source directory,
-#   $2  - destination directory.
+#   $1 - source directory.
 #
 # Dependencies:
 #   ffprobe version 4.0.2
@@ -19,12 +17,6 @@ IFS=$'\n'
 if [[ $1 == "" || ! -d $1 ]]
 then
     echo "Source directory '$1' doesn't exist!"
-    exit 1
-fi
-
-if [[ $2 == "" || ! -d $2 ]]
-then
-    echo "Destination directory '$2' doesn't exist!"
     exit 1
 fi
 
@@ -48,29 +40,28 @@ for src in $1/*; do
     fi
 
     meta_date=$(echo $meta_date | sed 's/[:T\-]//g')
-    dst=$2/MOV_$meta_date.${src##*.}
+    dst=$1/IMG_$meta_date.${src##*.}
 
     if [ -f $dst ]
     then
-        echo "File '$dst' already exists!"
         dst_old=$dst
         
         idx=1
         while true
         do
-            dst=$2/MOV_"$meta_date"_$idx.${src##*.}
+            dst=$1/IMG_"$meta_date"_$idx.${src##*.}
             if [ ! -f $dst ]
             then
                 break
             fi
             ((idx++))
         done
-        
-        echo "Renaming '$dst_old' to '$dst'."
+
     fi
 
-    echo "Copying '$src' to '$dst'"
+    echo "Renaming '$src' to '$dst'"
     cp -p $src $dst
+    rm -f $src
 done
 
 IFS=$IFS0

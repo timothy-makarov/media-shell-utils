@@ -1,12 +1,10 @@
 #!/bin/sh
 
 #
-# Shell script for encoding video files with FFmpeg.
-# Encoded videos will be placed to a specified directory and original files will be preserved.
-# Also deals with rotated videos.
+# Encodes video files with FFmpeg.
 #
 # Arguments:
-#   $1  - source directory,
+#   $1  - source directory;
 #   $2  - destination directory.
 #
 # Dependencies:
@@ -77,7 +75,6 @@ for src in $1/*; do
 
     if [ -f $dst ]
     then
-        echo "File '$dst' already exists!"
         dst_old=$dst
         
         idx=1
@@ -90,8 +87,6 @@ for src in $1/*; do
             fi
             ((idx++))
         done
-        
-        echo "Renaming '$dst_old' to '$dst'."
     fi
 
     ffmpeg -i $src -vf scale=$width:$height $dst -hide_banner
