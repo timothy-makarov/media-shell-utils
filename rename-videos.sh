@@ -9,14 +9,20 @@
 #   $2  - destination directory.
 #
 # Dependencies:
-#   FFmpeg (tested on version 4.0.2)
+#   ffprobe version 4.0.2
 #
 
 
 IFS0=$IFS
 IFS=$'\n'
 
-if [[ $ == "" || ! -d $2 ]]
+if [[ $1 == "" || ! -d $1 ]]
+then
+    echo "Source directory '$1' doesn't exist!"
+    exit 1
+fi
+
+if [[ $2 == "" || ! -d $2 ]]
 then
     echo "Destination directory '$2' doesn't exist!"
     exit 1
@@ -41,8 +47,8 @@ for src in $1/*; do
         meta_date=$(date -r $src "+%Y-%m-%dT%H:%M:%S")
     fi
 
-    meta_date=$(echo $meta_date | sed 's/[:T\-]/-/g')
-    dst=$2/VID_$meta_date.${src##*.}
+    meta_date=$(echo $meta_date | sed 's/[:T\-]//g')
+    dst=$2/MOV_$meta_date.${src##*.}
 
     if [ -f $dst ]
     then
@@ -52,7 +58,7 @@ for src in $1/*; do
         idx=1
         while true
         do
-            dst=$2/VID_"$meta_date"_$idx.${src##*.}
+            dst=$2/MOV_"$meta_date"_$idx.${src##*.}
             if [ ! -f $dst ]
             then
                 break
@@ -63,9 +69,8 @@ for src in $1/*; do
         echo "Renaming '$dst_old' to '$dst'."
     fi
 
-
     echo "Copying '$src' to '$dst'"
-    cp $src $dst
+    cp -p $src $dst
 done
 
 IFS=$IFS0

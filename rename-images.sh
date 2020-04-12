@@ -8,15 +8,18 @@
 #   $1  - source directory,
 #   $2  - destination directory.
 #
-# Dependencies:
-#   FFmpeg (tested on version 4.0.2)
-#
 
 
 IFS0=$IFS
 IFS=$'\n'
 
-if [[ $ == "" || ! -d $2 ]]
+if [[ $1 == "" || ! -d $1 ]]
+then
+    echo "Source directory '$1' doesn't exist!"
+    exit 1
+fi
+
+if [[ $2 == "" || ! -d $2 ]]
 then
     echo "Destination directory '$2' doesn't exist!"
     exit 1
@@ -35,16 +38,7 @@ for src in $1/*; do
         continue
     fi
 
-    meta_date=($(
-        mediainfo -f $src | grep 'File last modification date (local)'  \
-            | grep -E -o '\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}'
-    ))
-
-    if [[ $meta_date == "" ]]
-    then
-        meta_date=$(date -r $src "+%Y-%m-%d %H:%M:%S")
-    fi
-
+    meta_date=$(date -r $src "+%Y-%m-%d %H:%M:%S")
     meta_date=$(echo $meta_date | sed 's/[: \-]//g')
     dst=$2/IMG_$meta_date.${src##*.}
 
@@ -68,7 +62,7 @@ for src in $1/*; do
     fi
 
     echo "Copying '$src' to '$dst'"
-    cp $src $dst
+    cp -p $src $dst
 done
 
 IFS=$IFS0

@@ -10,14 +10,20 @@
 #   $2  - destination directory.
 #
 # Dependencies:
-#   FFmpeg (tested on version 4.0.2)
+#   ffmpeg version 4.0.2
 #
 
 
 IFS0=$IFS
 IFS=$'\n'
 
-if [[ $ == "" || ! -d $2 ]]
+if [[ $1 == "" || ! -d $1 ]]
+then
+    echo "Source directory '$1' doesn't exist!"
+    exit 1
+fi
+
+if [[ $2 == "" || ! -d $2 ]]
 then
     echo "Destination directory '$2' doesn't exist!"
     exit 1
