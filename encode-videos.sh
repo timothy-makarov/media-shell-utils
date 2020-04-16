@@ -1,11 +1,10 @@
 #!/bin/sh
 
 #
-# Encodes video files with FFmpeg.
+# Encodes the video files with FFmpeg.
 #
 # Arguments:
-#   $1  - source directory;
-#   $2  - destination directory.
+#   $1  - source directory
 #
 # Dependencies:
 #   ffmpeg version 4.0.2
@@ -17,13 +16,7 @@ IFS=$'\n'
 
 if [[ $1 == "" || ! -d $1 ]]
 then
-    echo "Source directory '$1' doesn't exist!"
-    exit 1
-fi
-
-if [[ $2 == "" || ! -d $2 ]]
-then
-    echo "Destination directory '$2' doesn't exist!"
+    echo "Directory '$1' doesn't exist!"
     exit 1
 fi
 
@@ -71,7 +64,7 @@ for src in $1/*; do
     fi
 
     dst0=${src%.*}
-    dst=$2/${dst0##*/}$VIDEO_EXTENSION
+    dst=$1/${dst0##*/}_E$VIDEO_EXTENSION
 
     if [ -f $dst ]
     then
@@ -80,7 +73,7 @@ for src in $1/*; do
         idx=1
         while true
         do
-            dst=$2/${dst0##*/}_"$idx"$VIDEO_EXTENSION
+            dst=$1/${dst0##*/}_E_"$idx"$VIDEO_EXTENSION
             if [ ! -f $dst ]
             then
                 break
