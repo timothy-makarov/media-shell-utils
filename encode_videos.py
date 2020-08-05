@@ -7,7 +7,8 @@ import sys
 
 
 EXTENSIONS = [
-    '.mov'
+    '.mov',
+    '.mkv'
 ]
 
 TARGET_SUF = '_E'
