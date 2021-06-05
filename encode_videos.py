@@ -7,9 +7,10 @@ import sys
 
 
 EXTENSIONS = [
-    '.mov',
+    '.avi',
     '.mkv',
-    '.avi'
+    '.mov',
+    '.mp4'
 ]
 
 TARGET_SUF = '_E'
@@ -28,6 +29,7 @@ for root, _, files in os.walk(sys.argv[1]):
         file_name = os.path.join(root, fn)
         fn_woext, extension = os.path.splitext(file_name)
         if (extension.lower() not in EXTENSIONS):
+            print('Skipping file: {}'.format(file_name))
             continue
         fn_out = '{}{}{}'.format(fn_woext, TARGET_SUF, TARGET_EXT)
         if(os.path.exists(fn_out)):
