@@ -1,4 +1,3 @@
-#!/bin/sh
 
 #
 # Encodes the video files with FFmpeg.
@@ -82,7 +81,12 @@ for src in $1/*; do
         done
     fi
 
-    ffmpeg -i $src -vf scale=$width:$height $dst -hide_banner
+    ffmpeg  -i $src \
+            -vcodec libx264 \
+            -acodec aac \
+            -vf scale=$width:$height \
+            -hide_banner \
+            $dst
 done
 
 
