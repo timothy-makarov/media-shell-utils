@@ -1,3 +1,5 @@
+#!/bin/sh
+
 
 #
 # Encodes the video files with FFmpeg.

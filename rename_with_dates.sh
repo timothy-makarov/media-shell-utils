@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 #
 # Renames video and image files according to their meta data information.
 #
